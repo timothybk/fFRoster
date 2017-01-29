@@ -53,6 +53,9 @@
 
 
 		var print = function(){
+			
+		list.sort(function(a,b){a.rank - b.rank}); //attempt to sort array
+			
 			for(var key in list)
 			{
 				console.log(list[key])
