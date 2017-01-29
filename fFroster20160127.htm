@@ -1,0 +1,125 @@
+<!doctype HTML public "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtmll/DTD/xhtmll-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title></title>
+</head>
+<body>
+	<script type="text/javascript" src="jquery-3.1.1.min.js"></script>
+	<script type="text/javascript">
+
+
+		var main = function(){
+			
+			$("#finishButton").click(function(){
+				var servNum = parseInt($("#serviceNumberText").val());
+				
+				var ident = new fireFighter($("#nameText").val(), servNum, $("#mdChkBox").is(":checked"), $("#rescueChkBox").is(":checked"), $("#aerialChkBox").is(":checked"));
+				print();
+
+				// console.log($("#nameText").val());
+				// console.log($("#serviceNumberText").val());
+				// console.log($("#mdChkBox").is(":checked"));
+				// console.log($("#rescueChkBox").is(":checked"));
+				// console.log($("#aerialChkBox").is(":checked"));
+			}),
+			
+			$("[type=text]").attr("placeholder", "Testing")
+		};
+
+
+
+		function fireFighter (name, rank, motorDrive, rescue, aerial)
+		{
+			this.name = name; //name of fire fighter
+			this.rank = rank; //rank by number for sorting
+			this.motorDrive = motorDrive; //has Driver quals
+			this.rescue = rescue; //has rescue qualification
+			this.aerial = aerial; //has aerial qualification
+			
+
+			list.push(this);
+
+		}
+
+		var list = new Array();
+
+
+		var me = new fireFighter("me",4,true,false,true);
+		var other1 = new fireFighter("other1",5,true,false,true);
+		var other2 = new fireFighter("other2",3,false,false,false);
+
+
+
+
+		var print = function(){
+			for(var key in list)
+			{
+				console.log(list[key])
+
+			}
+		}
+		$(document).ready(main);
+
+
+
+</script>
+
+<form action="" name="addForm" class="form1">
+	<p>
+		FireFighter Name:
+	</p>
+	<input type="text" name="nameTxt" id="nameText" />	
+	<p>
+		Service Number:
+	</p>
+	<input type="text" name="servTxt" id="serviceNumberText" />	
+	<p>
+		Rank:
+	</p>
+	<select name="Rank" size="1">
+		<option value="Level 1" selected="selected">Level 1</option>
+		<option value="QF">QF</option>
+		<option value="SF">SF</option>
+		<option value="SFF">SFF</option>
+		<option value="LF">LF</option>
+	</select>
+
+	<table>
+
+		<p>
+			Tick all of the Fire Fighters qualifications
+		</p>
+
+		<tr>
+			<td>
+				Motor Driver
+			</td>
+			<td>
+				<input type="checkbox" name="mdChk" value="false" id="mdChkBox" class="qualChk" />
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Rescue
+			</td>
+			<td>
+				<input type="checkbox" name="rescChk" value="false" id="rescueChkBox" class="qualChk"/>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Aerial
+			</td>
+			<td>
+				<input type="checkbox" name="aerialChk" value="false" id="aerialChkBox" class="qualChk" />
+			</td>
+		</tr>
+	</table>
+
+	<input type="button" name="finButt" id="finishButton" value="Finish">
+	<input type="button" name="reviewButt" id="reviewButton" value="Review">
+
+</body>
+
+</html>
