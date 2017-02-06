@@ -12,18 +12,27 @@
 		var main = function(){
 			
 			$("#finishButton").click(function(){
+				var name = $("#nameText").val();
 				var servNum = parseInt($("#serviceNumberText").val());
+				var md = $("#mdChkBox").is(":checked");
+				var rescue = $("#rescueChkBox").is(":checked");
+				var aerial = $("#aerialChkBox").is(":checked");
+				var lettersFunc = /^[^0-9]+$/gi;
 				
-				var ident = new fireFighter($("#nameText").val(), servNum, $("#mdChkBox").is(":checked"), $("#rescueChkBox").is(":checked"), $("#aerialChkBox").is(":checked"));
-				print();
+				if (!isNaN(servNum) && name != "" && name.match(lettersFunc)) {
+					list(name, servNum, md, rescue, aerial);
+					print(firie);
 
-				// console.log($("#nameText").val());
-				// console.log($("#serviceNumberText").val());
-				// console.log($("#mdChkBox").is(":checked"));
-				// console.log($("#rescueChkBox").is(":checked"));
-				// console.log($("#aerialChkBox").is(":checked"));
-			}),
+				}
+				else{
+					console.log("failed if")
+					
+				}
+
+				$("[type=text]").val("")
 			
+			
+			}),
 			$("[type=text]").attr("placeholder", "Testing")
 		};
 
@@ -36,34 +45,31 @@
 			this.motorDrive = motorDrive; //has Driver quals
 			this.rescue = rescue; //has rescue qualification
 			this.aerial = aerial; //has aerial qualification
-			
-
-			list.push(this);
-
 		}
 
-		var list = new Array();
+			var firie = new Array();
+		function list(name, rank, motorDrive, rescue, aerial) {
+			
+			this.firie[rank] = new fireFighter(name, rank, motorDrive, rescue, aerial);
+		}
 
 
-		var me = new fireFighter("me",4,true,false,true);
-		var other1 = new fireFighter("other1",5,true,false,true);
-		var other2 = new fireFighter("other2",3,false,false,false);
+		var me = list("me",4,true,false,true);
+		var other1 = list("other1",5,true,false,true);
+		var other2 = list("other2",3,false,false,false);
 
 
 
 
 		var print = function(){
-			
-		list.sort(function(a,b){a.rank - b.rank}); //attempt to sort array
-			
-			for(var key in list)
+			for(var key in firie)
 			{
-				console.log(list[key])
+				console.log(firie[key])
 
 			}
 		}
 		$(document).ready(main);
-
+		
 
 
 </script>
