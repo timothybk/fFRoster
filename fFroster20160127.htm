@@ -1,126 +1,143 @@
 <!doctype HTML public "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtmll/DTD/xhtmll-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
-	<title></title>
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script type="text/javascript" src="jquery-3.1.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </head>
 <body>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-	<script type="text/javascript" src="jquery-3.1.1.min.js"></script>
-	<script type="text/javascript">
+    <div class="container">
+        <script type="text/javascript">
+        var main = function() {
+
+            $("#finishButton").click(function() {
+                    var name = $("#nameText").val();
+                    var servNum = parseInt($("#serviceNumberText").val());
+                    var md = $("#mdChkBox").is(":checked");
+                    var rescue = $("#rescueChkBox").is(":checked");
+                    var aerial = $("#aerialChkBox").is(":checked");
+                    var lettersFunc = /^[^0-9]+$/gi;
+
+                    if (!isNaN(servNum) && name != "" && name.match(lettersFunc)) {
+                        list(name, servNum, md, rescue, aerial);
+                        print();
+
+                    } else if (isNaN(servNum)) {
+                        alert("Need valid service number");
+
+                    } else {
+                        alert("Need a valid name");
+                    }
+
+                    $("[type=text]").val("")
 
 
-		var main = function(){
-			
-			$("#finishButton").click(function(){
-				var servNum = parseInt($("#serviceNumberText").val());
-				
-				var ident = new fireFighter($("#nameText").val(), servNum, $("#mdChkBox").is(":checked"), $("#rescueChkBox").is(":checked"), $("#aerialChkBox").is(":checked"));
-				print();
+                }),
+                
 
-				// console.log($("#nameText").val());
-				// console.log($("#serviceNumberText").val());
-				// console.log($("#mdChkBox").is(":checked"));
-				// console.log($("#rescueChkBox").is(":checked"));
-				// console.log($("#aerialChkBox").is(":checked"));
-			}),
-			
-			$("[type=text]").attr("placeholder", "Testing")
-		};
+            $("#nameChangeButton").click(function() { //function not working
+            	var selectedservNum = $("#ffSelect").find("option:selected").val();
+                var newName = $("#nameChangeText").val();
+                firie[selectedservNum].name = newName;
+                print();
+                console.log(firie[selectedservNum]);
+            })
 
-
-
-		function fireFighter (name, rank, motorDrive, rescue, aerial)
-		{
-			this.name = name; //name of fire fighter
-			this.rank = rank; //rank by number for sorting
-			this.motorDrive = motorDrive; //has Driver quals
-			this.rescue = rescue; //has rescue qualification
-			this.aerial = aerial; //has aerial qualification
-			
-
-			list.push(this);
-
-		}
-
-		var list = new Array();
-
-
-		var me = new fireFighter("me",4,true,false,true);
-		var other1 = new fireFighter("other1",5,true,false,true);
-		var other2 = new fireFighter("other2",3,false,false,false);
+            print();
+        };
 
 
 
+        function fireFighter(name, servNum, rank, motorDrive, rescue, aerial) {
+            this.name = name; //name of fire fighter
+            this.servNum = servNum; //servNum by number for sorting
+            this.rank = rank; //rank of fire fighter
+            this.motorDrive = motorDrive; //has Driver quals
+            this.rescue = rescue; //has rescue qualification
+            this.aerial = aerial; //has aerial qualification
+        }
 
-		var print = function(){
-			for(var key in list)
-			{
-				console.log(list[key])
+        var firie = new Array();
 
-			}
-		}
-		$(document).ready(main);
+        function list(name, servNum, rank, motorDrive, rescue, aerial) {
+
+            this.firie[servNum] = new fireFighter(name, servNum, rank, motorDrive, rescue, aerial);
+        }
 
 
+        var me = list("me", 4, "SF",  true, false, true);
+        var other1 = list("other1", 5, "QF", true, false, true);
+        var other2 = list("other2", 3, "Level 1", false, false, false);
 
-</script>
 
-<form action="" name="addForm" class="form1">
-	<p>
-		FireFighter Name:
-	</p>
-	<input type="text" name="nameTxt" id="nameText" />	
-	<p>
-		Service Number:
-	</p>
-	<input type="text" name="servTxt" id="serviceNumberText" />	
-	<p>
-		Rank:
-	</p>
-	<select name="Rank" size="1">
-		<option value="Level 1" selected="selected">Level 1</option>
-		<option value="QF">QF</option>
-		<option value="SF">SF</option>
-		<option value="SFF">SFF</option>
-		<option value="LF">LF</option>
-	</select>
 
-	<table>
 
-		<p>
-			Tick all of the Fire Fighters qualifications
-		</p>
+        var print = function() {
+            $("#ffSelect").empty();
+            for (var key in firie) {
+                console.log(firie[key])
+                $("#ffSelect").append("<option value=" +
+                    firie[key].servNum + ">" + firie[key].name + "</option>")
+            }
 
-		<tr>
-			<td>
-				Motor Driver
-			</td>
-			<td>
-				<input type="checkbox" name="mdChk" value="false" id="mdChkBox" class="qualChk" />
-			</td>
-		</tr>
-		<tr>
-			<td>
-				Rescue
-			</td>
-			<td>
-				<input type="checkbox" name="rescChk" value="false" id="rescueChkBox" class="qualChk"/>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				Aerial
-			</td>
-			<td>
-				<input type="checkbox" name="aerialChk" value="false" id="aerialChkBox" class="qualChk" />
-			</td>
-		</tr>
-	</table>
-
-	<input type="button" name="finButt" id="finishButton" value="Finish">
-	<input type="button" name="reviewButt" id="reviewButton" value="Review">
-
+        }
+        $(document).ready(main);
+        </script>
+        <form action="" name="addForm" class="form1">
+            <div class="form-group">
+                <label for="nameTxt">FireFighter Name</label>
+                <input type="text" class="form-control" id="nameText" />
+            </div>
+            <div class="form-group">
+                <label for="serviceNumberText">Service Number</label>
+                <input type="text" class="form-control" id="serviceNumberText" />
+            </div>
+            <div class="form-group">
+                <label for="servNumSel">Rank</label>
+                <select class="form-control" id="servNumSel">
+                    <option>Level 1</option>
+                    <option>QF</option>
+                    <option>SF</option>
+                    <option>SFF</option>
+                    <option>LF</option>
+                </select>
+            </div>
+            <fieldset class="form-group"></fieldset>
+            <legend>Tick all that apply</legend>
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" value="false" id="mdChkBox" /> Motor Driver
+                </label>
+            </div>
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" value="false" id="rescueChkBox" /> Rescue
+                </label>
+            </div>
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" value="false" id="aerialChkBox" /> Aerial
+                </label>
+            </div>
+            <button type="button" id="finishButton" class="btn btn-primary">Submit</button>
+        </form>
+        <form>
+            <div class="form-group">
+                <label for="ffSelect">Select Fire Fighter</label>
+                <select class="form-control" id="ffSelect">
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="servNumChange">Change name</label>
+                <input type="text" class="form-control" id="nameChangeText" />
+            </div>
+            <button type="button" class="btn btn-primary" id="nameChangeButton">Change Name</button>
+        </form>
+    </div>
 </body>
 
 </html>
